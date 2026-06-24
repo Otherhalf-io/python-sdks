@@ -32,6 +32,7 @@ from ._proto.room_pb2 import (
     VideoEncoding,
 )
 from ._proto.track_pb2 import (
+    PublishTimingStage,
     StreamState,
     TrackKind,
     TrackSource,
@@ -72,6 +73,7 @@ from .track import (
     RemoteTrack,
     RemoteVideoTrack,
     Track,
+    TrackPublishTimingEvent,
     VideoTrack,
 )
 from .event_emitter import EventEmitter
@@ -120,6 +122,7 @@ __all__ = [
     "IceServer",
     "EncryptionType",
     "EncryptionState",
+    "PublishTimingStage",
     "StreamState",
     "TrackKind",
     "TrackSource",
@@ -150,6 +153,7 @@ __all__ = [
     "RemoteAudioTrack",
     "RemoteVideoTrack",
     "Track",
+    "TrackPublishTimingEvent",
     "LocalTrack",
     "RemoteTrack",
     "AudioTrack",

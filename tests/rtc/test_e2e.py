@@ -142,6 +142,63 @@ async def test_publish_track():
 
 @pytest.mark.asyncio
 @skip_if_no_credentials()
+async def test_audio_publish_timing_events_include_rtp_timestamp():
+    """Published local audio exposes sender RTP timing for media-clock anchoring."""
+
+    room_name = unique_room_name("test-publish-timing")
+    url = os.getenv("LIVEKIT_URL")
+
+    publisher_room = rtc.Room()
+    publisher_token = create_token("timing-publisher", room_name)
+
+    try:
+        await publisher_room.connect(url, publisher_token)
+
+        source = rtc.AudioSource(SAMPLE_RATE, 1)
+        track = rtc.LocalAudioTrack.create_audio_track("timed-audio", source)
+        timing_events = track.publish_timing_events()
+
+        options = rtc.TrackPublishOptions()
+        options.source = rtc.TrackSource.SOURCE_MICROPHONE
+        await publisher_room.local_participant.publish_track(track, options)
+
+        async def publish_audio():
+            async for frame in sine_wave_generator(440, 0.6, SAMPLE_RATE):
+                await source.capture_frame(frame)
+
+        publish_task = asyncio.create_task(publish_audio())
+
+        packetized_events: list[rtc.TrackPublishTimingEvent] = []
+        deadline = asyncio.get_event_loop().time() + 5.0
+        while asyncio.get_event_loop().time() < deadline and len(packetized_events) < 8:
+            event = await asyncio.wait_for(
+                timing_events.__anext__(),
+                timeout=max(0.1, deadline - asyncio.get_event_loop().time()),
+            )
+            if event.stage == rtc.PublishTimingStage.PUBLISH_TIMING_STAGE_WEBRTC_PACKETIZE:
+                packetized_events.append(event)
+
+        await publish_task
+        await timing_events.aclose()
+
+        assert len(packetized_events) >= 8
+        assert all(event.rtp_timestamp > 0 for event in packetized_events)
+        assert all(event.ssrc > 0 for event in packetized_events)
+        assert {event.ssrc for event in packetized_events} == {packetized_events[0].ssrc}
+        assert all(event.timestamp_us > 0 for event in packetized_events)
+        assert all(event.capture_timestamp_us >= 0 for event in packetized_events)
+
+        rtp_deltas = [
+            later.rtp_timestamp - earlier.rtp_timestamp
+            for earlier, later in zip(packetized_events, packetized_events[1:])
+        ]
+        assert set(rtp_deltas) == {960}
+    finally:
+        await publisher_room.disconnect()
+
+
+@pytest.mark.asyncio
+@skip_if_no_credentials()
 async def test_audio_stream_subscribe():
     """Test that published audio can be consumed and has similar energy levels"""
     room_name = unique_room_name("test-audio-stream")

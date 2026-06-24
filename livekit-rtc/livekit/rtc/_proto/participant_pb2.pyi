@@ -15,7 +15,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
 import builtins
 import collections.abc
 import google.protobuf.descriptor
@@ -33,6 +32,25 @@ else:
     import typing_extensions
 
 DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
+
+class _ParticipantState:
+    ValueType = typing.NewType("ValueType", builtins.int)
+    V: typing_extensions.TypeAlias = ValueType
+
+class _ParticipantStateEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_ParticipantState.ValueType], builtins.type):
+    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    PARTICIPANT_STATE_JOINING: _ParticipantState.ValueType  # 0
+    PARTICIPANT_STATE_JOINED: _ParticipantState.ValueType  # 1
+    PARTICIPANT_STATE_ACTIVE: _ParticipantState.ValueType  # 2
+    PARTICIPANT_STATE_DISCONNECTED: _ParticipantState.ValueType  # 3
+
+class ParticipantState(_ParticipantState, metaclass=_ParticipantStateEnumTypeWrapper): ...
+
+PARTICIPANT_STATE_JOINING: ParticipantState.ValueType  # 0
+PARTICIPANT_STATE_JOINED: ParticipantState.ValueType  # 1
+PARTICIPANT_STATE_ACTIVE: ParticipantState.ValueType  # 2
+PARTICIPANT_STATE_DISCONNECTED: ParticipantState.ValueType  # 3
+global___ParticipantState = ParticipantState
 
 class _ParticipantKind:
     ValueType = typing.NewType("ValueType", builtins.int)
@@ -151,11 +169,11 @@ MEDIA_FAILURE: DisconnectReason.ValueType  # 15
 AGENT_ERROR: DisconnectReason.ValueType  # 16
 global___DisconnectReason = DisconnectReason
 
-@typing.final
+@typing_extensions.final
 class ParticipantInfo(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing.final
+    @typing_extensions.final
     class AttributesEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -169,49 +187,59 @@ class ParticipantInfo(google.protobuf.message.Message):
             key: builtins.str | None = ...,
             value: builtins.str | None = ...,
         ) -> None: ...
-        def HasField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing.Literal["key", b"key", "value", b"value"]) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     SID_FIELD_NUMBER: builtins.int
     NAME_FIELD_NUMBER: builtins.int
     IDENTITY_FIELD_NUMBER: builtins.int
+    STATE_FIELD_NUMBER: builtins.int
     METADATA_FIELD_NUMBER: builtins.int
     ATTRIBUTES_FIELD_NUMBER: builtins.int
     KIND_FIELD_NUMBER: builtins.int
     DISCONNECT_REASON_FIELD_NUMBER: builtins.int
+    JOINED_AT_FIELD_NUMBER: builtins.int
     KIND_DETAILS_FIELD_NUMBER: builtins.int
     PERMISSION_FIELD_NUMBER: builtins.int
+    CLIENT_PROTOCOL_FIELD_NUMBER: builtins.int
     sid: builtins.str
     name: builtins.str
     identity: builtins.str
+    state: global___ParticipantState.ValueType
     metadata: builtins.str
-    kind: global___ParticipantKind.ValueType
-    disconnect_reason: global___DisconnectReason.ValueType
     @property
     def attributes(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]: ...
+    kind: global___ParticipantKind.ValueType
+    disconnect_reason: global___DisconnectReason.ValueType
+    joined_at: builtins.int
+    """ms timestamp of when the participant joined the room, maps to joined_at_ms in livekit_models"""
     @property
     def kind_details(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[global___ParticipantKindDetail.ValueType]: ...
     @property
     def permission(self) -> global___ParticipantPermission: ...
+    client_protocol: builtins.int
     def __init__(
         self,
         *,
         sid: builtins.str | None = ...,
         name: builtins.str | None = ...,
         identity: builtins.str | None = ...,
+        state: global___ParticipantState.ValueType | None = ...,
         metadata: builtins.str | None = ...,
         attributes: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
         kind: global___ParticipantKind.ValueType | None = ...,
         disconnect_reason: global___DisconnectReason.ValueType | None = ...,
+        joined_at: builtins.int | None = ...,
         kind_details: collections.abc.Iterable[global___ParticipantKindDetail.ValueType] | None = ...,
         permission: global___ParticipantPermission | None = ...,
+        client_protocol: builtins.int | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["disconnect_reason", b"disconnect_reason", "identity", b"identity", "kind", b"kind", "metadata", b"metadata", "name", b"name", "permission", b"permission", "sid", b"sid"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["attributes", b"attributes", "disconnect_reason", b"disconnect_reason", "identity", b"identity", "kind", b"kind", "kind_details", b"kind_details", "metadata", b"metadata", "name", b"name", "permission", b"permission", "sid", b"sid"]) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["client_protocol", b"client_protocol", "disconnect_reason", b"disconnect_reason", "identity", b"identity", "joined_at", b"joined_at", "kind", b"kind", "metadata", b"metadata", "name", b"name", "permission", b"permission", "sid", b"sid", "state", b"state"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["attributes", b"attributes", "client_protocol", b"client_protocol", "disconnect_reason", b"disconnect_reason", "identity", b"identity", "joined_at", b"joined_at", "kind", b"kind", "kind_details", b"kind_details", "metadata", b"metadata", "name", b"name", "permission", b"permission", "sid", b"sid", "state", b"state"]) -> None: ...
 
 global___ParticipantInfo = ParticipantInfo
 
-@typing.final
+@typing_extensions.final
 class OwnedParticipant(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -227,12 +255,12 @@ class OwnedParticipant(google.protobuf.message.Message):
         handle: handle_pb2.FfiOwnedHandle | None = ...,
         info: global___ParticipantInfo | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["handle", b"handle", "info", b"info"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["handle", b"handle", "info", b"info"]) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["handle", b"handle", "info", b"info"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["handle", b"handle", "info", b"info"]) -> None: ...
 
 global___OwnedParticipant = OwnedParticipant
 
-@typing.final
+@typing_extensions.final
 class ParticipantPermission(google.protobuf.message.Message):
     """copied from livekit-protocol/protocol/protobufs/livekit_models.proto and removed deprecated fields"""
 
@@ -252,6 +280,9 @@ class ParticipantPermission(google.protobuf.message.Message):
     """allow participant to publish new tracks to room"""
     can_publish_data: builtins.bool
     """allow participant to publish data"""
+    @property
+    def can_publish_sources(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[track_pb2.TrackSource.ValueType]:
+        """sources that are allowed to be published"""
     hidden: builtins.bool
     """indicates that it's hidden to others"""
     can_update_metadata: builtins.bool
@@ -260,10 +291,6 @@ class ParticipantPermission(google.protobuf.message.Message):
     """if a participant can subscribe to metrics"""
     can_manage_agent_session: builtins.bool
     """if a participant can manage an agent session via RemoteSession (control and access state)"""
-    @property
-    def can_publish_sources(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[track_pb2.TrackSource.ValueType]:
-        """sources that are allowed to be published"""
-
     def __init__(
         self,
         *,
@@ -276,7 +303,7 @@ class ParticipantPermission(google.protobuf.message.Message):
         can_subscribe_metrics: builtins.bool | None = ...,
         can_manage_agent_session: builtins.bool | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["can_manage_agent_session", b"can_manage_agent_session", "can_publish", b"can_publish", "can_publish_data", b"can_publish_data", "can_subscribe", b"can_subscribe", "can_subscribe_metrics", b"can_subscribe_metrics", "can_update_metadata", b"can_update_metadata", "hidden", b"hidden"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["can_manage_agent_session", b"can_manage_agent_session", "can_publish", b"can_publish", "can_publish_data", b"can_publish_data", "can_publish_sources", b"can_publish_sources", "can_subscribe", b"can_subscribe", "can_subscribe_metrics", b"can_subscribe_metrics", "can_update_metadata", b"can_update_metadata", "hidden", b"hidden"]) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["can_manage_agent_session", b"can_manage_agent_session", "can_publish", b"can_publish", "can_publish_data", b"can_publish_data", "can_subscribe", b"can_subscribe", "can_subscribe_metrics", b"can_subscribe_metrics", "can_update_metadata", b"can_update_metadata", "hidden", b"hidden"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["can_manage_agent_session", b"can_manage_agent_session", "can_publish", b"can_publish", "can_publish_data", b"can_publish_data", "can_publish_sources", b"can_publish_sources", "can_subscribe", b"can_subscribe", "can_subscribe_metrics", b"can_subscribe_metrics", "can_update_metadata", b"can_update_metadata", "hidden", b"hidden"]) -> None: ...
 
 global___ParticipantPermission = ParticipantPermission

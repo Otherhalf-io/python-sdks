@@ -15,15 +15,19 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
 import builtins
 import google.protobuf.descriptor
 import google.protobuf.message
-import typing
+import sys
+
+if sys.version_info >= (3, 8):
+    import typing as typing_extensions
+else:
+    import typing_extensions
 
 DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
-@typing.final
+@typing_extensions.final
 class RpcError(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -40,12 +44,12 @@ class RpcError(google.protobuf.message.Message):
         message: builtins.str | None = ...,
         data: builtins.str | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["code", b"code", "data", b"data", "message", b"message"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["code", b"code", "data", b"data", "message", b"message"]) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["code", b"code", "data", b"data", "message", b"message"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["code", b"code", "data", b"data", "message", b"message"]) -> None: ...
 
 global___RpcError = RpcError
 
-@typing.final
+@typing_extensions.final
 class PerformRpcRequest(google.protobuf.message.Message):
     """FFI Requests"""
 
@@ -57,12 +61,14 @@ class PerformRpcRequest(google.protobuf.message.Message):
     PAYLOAD_FIELD_NUMBER: builtins.int
     RESPONSE_TIMEOUT_MS_FIELD_NUMBER: builtins.int
     REQUEST_ASYNC_ID_FIELD_NUMBER: builtins.int
+    MAX_ROUND_TRIP_LATENCY_MS_FIELD_NUMBER: builtins.int
     local_participant_handle: builtins.int
     destination_identity: builtins.str
     method: builtins.str
     payload: builtins.str
     response_timeout_ms: builtins.int
     request_async_id: builtins.int
+    max_round_trip_latency_ms: builtins.int
     def __init__(
         self,
         *,
@@ -72,13 +78,14 @@ class PerformRpcRequest(google.protobuf.message.Message):
         payload: builtins.str | None = ...,
         response_timeout_ms: builtins.int | None = ...,
         request_async_id: builtins.int | None = ...,
+        max_round_trip_latency_ms: builtins.int | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["destination_identity", b"destination_identity", "local_participant_handle", b"local_participant_handle", "method", b"method", "payload", b"payload", "request_async_id", b"request_async_id", "response_timeout_ms", b"response_timeout_ms"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["destination_identity", b"destination_identity", "local_participant_handle", b"local_participant_handle", "method", b"method", "payload", b"payload", "request_async_id", b"request_async_id", "response_timeout_ms", b"response_timeout_ms"]) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["destination_identity", b"destination_identity", "local_participant_handle", b"local_participant_handle", "max_round_trip_latency_ms", b"max_round_trip_latency_ms", "method", b"method", "payload", b"payload", "request_async_id", b"request_async_id", "response_timeout_ms", b"response_timeout_ms"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["destination_identity", b"destination_identity", "local_participant_handle", b"local_participant_handle", "max_round_trip_latency_ms", b"max_round_trip_latency_ms", "method", b"method", "payload", b"payload", "request_async_id", b"request_async_id", "response_timeout_ms", b"response_timeout_ms"]) -> None: ...
 
 global___PerformRpcRequest = PerformRpcRequest
 
-@typing.final
+@typing_extensions.final
 class RegisterRpcMethodRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -92,12 +99,12 @@ class RegisterRpcMethodRequest(google.protobuf.message.Message):
         local_participant_handle: builtins.int | None = ...,
         method: builtins.str | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["local_participant_handle", b"local_participant_handle", "method", b"method"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["local_participant_handle", b"local_participant_handle", "method", b"method"]) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["local_participant_handle", b"local_participant_handle", "method", b"method"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["local_participant_handle", b"local_participant_handle", "method", b"method"]) -> None: ...
 
 global___RegisterRpcMethodRequest = RegisterRpcMethodRequest
 
-@typing.final
+@typing_extensions.final
 class UnregisterRpcMethodRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -111,12 +118,12 @@ class UnregisterRpcMethodRequest(google.protobuf.message.Message):
         local_participant_handle: builtins.int | None = ...,
         method: builtins.str | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["local_participant_handle", b"local_participant_handle", "method", b"method"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["local_participant_handle", b"local_participant_handle", "method", b"method"]) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["local_participant_handle", b"local_participant_handle", "method", b"method"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["local_participant_handle", b"local_participant_handle", "method", b"method"]) -> None: ...
 
 global___UnregisterRpcMethodRequest = UnregisterRpcMethodRequest
 
-@typing.final
+@typing_extensions.final
 class RpcMethodInvocationResponseRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -137,12 +144,12 @@ class RpcMethodInvocationResponseRequest(google.protobuf.message.Message):
         payload: builtins.str | None = ...,
         error: global___RpcError | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["error", b"error", "invocation_id", b"invocation_id", "local_participant_handle", b"local_participant_handle", "payload", b"payload"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["error", b"error", "invocation_id", b"invocation_id", "local_participant_handle", b"local_participant_handle", "payload", b"payload"]) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["error", b"error", "invocation_id", b"invocation_id", "local_participant_handle", b"local_participant_handle", "payload", b"payload"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["error", b"error", "invocation_id", b"invocation_id", "local_participant_handle", b"local_participant_handle", "payload", b"payload"]) -> None: ...
 
 global___RpcMethodInvocationResponseRequest = RpcMethodInvocationResponseRequest
 
-@typing.final
+@typing_extensions.final
 class PerformRpcResponse(google.protobuf.message.Message):
     """FFI Responses"""
 
@@ -155,12 +162,12 @@ class PerformRpcResponse(google.protobuf.message.Message):
         *,
         async_id: builtins.int | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["async_id", b"async_id"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["async_id", b"async_id"]) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["async_id", b"async_id"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["async_id", b"async_id"]) -> None: ...
 
 global___PerformRpcResponse = PerformRpcResponse
 
-@typing.final
+@typing_extensions.final
 class RegisterRpcMethodResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -170,7 +177,7 @@ class RegisterRpcMethodResponse(google.protobuf.message.Message):
 
 global___RegisterRpcMethodResponse = RegisterRpcMethodResponse
 
-@typing.final
+@typing_extensions.final
 class UnregisterRpcMethodResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -180,7 +187,7 @@ class UnregisterRpcMethodResponse(google.protobuf.message.Message):
 
 global___UnregisterRpcMethodResponse = UnregisterRpcMethodResponse
 
-@typing.final
+@typing_extensions.final
 class RpcMethodInvocationResponseResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -191,12 +198,12 @@ class RpcMethodInvocationResponseResponse(google.protobuf.message.Message):
         *,
         error: builtins.str | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["error", b"error"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["error", b"error"]) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["error", b"error"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["error", b"error"]) -> None: ...
 
 global___RpcMethodInvocationResponseResponse = RpcMethodInvocationResponseResponse
 
-@typing.final
+@typing_extensions.final
 class PerformRpcCallback(google.protobuf.message.Message):
     """FFI Callbacks"""
 
@@ -216,12 +223,12 @@ class PerformRpcCallback(google.protobuf.message.Message):
         payload: builtins.str | None = ...,
         error: global___RpcError | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["async_id", b"async_id", "error", b"error", "payload", b"payload"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["async_id", b"async_id", "error", b"error", "payload", b"payload"]) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["async_id", b"async_id", "error", b"error", "payload", b"payload"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["async_id", b"async_id", "error", b"error", "payload", b"payload"]) -> None: ...
 
 global___PerformRpcCallback = PerformRpcCallback
 
-@typing.final
+@typing_extensions.final
 class RpcMethodInvocationEvent(google.protobuf.message.Message):
     """FFI Events"""
 
@@ -252,7 +259,7 @@ class RpcMethodInvocationEvent(google.protobuf.message.Message):
         payload: builtins.str | None = ...,
         response_timeout_ms: builtins.int | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["caller_identity", b"caller_identity", "invocation_id", b"invocation_id", "local_participant_handle", b"local_participant_handle", "method", b"method", "payload", b"payload", "request_id", b"request_id", "response_timeout_ms", b"response_timeout_ms"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["caller_identity", b"caller_identity", "invocation_id", b"invocation_id", "local_participant_handle", b"local_participant_handle", "method", b"method", "payload", b"payload", "request_id", b"request_id", "response_timeout_ms", b"response_timeout_ms"]) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["caller_identity", b"caller_identity", "invocation_id", b"invocation_id", "local_participant_handle", b"local_participant_handle", "method", b"method", "payload", b"payload", "request_id", b"request_id", "response_timeout_ms", b"response_timeout_ms"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["caller_identity", b"caller_identity", "invocation_id", b"invocation_id", "local_participant_handle", b"local_participant_handle", "method", b"method", "payload", b"payload", "request_id", b"request_id", "response_timeout_ms", b"response_timeout_ms"]) -> None: ...
 
 global___RpcMethodInvocationEvent = RpcMethodInvocationEvent

@@ -12,7 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import TYPE_CHECKING, List, Union
+from dataclasses import dataclass
+from typing import TYPE_CHECKING, AsyncIterator, List, Optional, Union
+
 from ._ffi_client import FfiHandle, FfiClient
 from ._proto import ffi_pb2 as proto_ffi
 from ._proto import track_pb2 as proto_track
@@ -21,6 +23,17 @@ from ._proto import stats_pb2 as proto_stats
 if TYPE_CHECKING:
     from .audio_source import AudioSource
     from .video_source import VideoSource
+
+
+@dataclass(frozen=True)
+class TrackPublishTimingEvent:
+    track_handle: int
+    stage: proto_track.PublishTimingStage.ValueType
+    timestamp_us: int
+    capture_timestamp_us: int
+    frame_id: Optional[int]
+    rtp_timestamp: int
+    ssrc: int
 
 
 class Track:
@@ -93,6 +106,42 @@ class LocalAudioTrack(Track):
         req.local_track_mute.mute = False
         FfiClient.instance.request(req)
         self._info.muted = False
+
+    async def publish_timing_events(self) -> AsyncIterator[TrackPublishTimingEvent]:
+        """Observe RTP publish timing for this local audio track.
+
+        Events are emitted by the native sender path after audio frames have
+        reached WebRTC packetization, and include the RTP timestamp/SSRC needed
+        to correlate published media time with receiver playout time.
+        """
+
+        handle = self._ffi_handle.handle
+        queue = FfiClient.instance.queue.subscribe(
+            filter_fn=lambda event: (
+                event.WhichOneof("message") == "track_publish_timing"
+                and event.track_publish_timing.track_handle == handle
+            )
+        )
+        try:
+            req = proto_ffi.FfiRequest()
+            req.observe_track_publish_timing.track_handle = handle
+            FfiClient.instance.request(req)
+
+            while True:
+                event = await queue.get()
+                timing = event.track_publish_timing
+                yield TrackPublishTimingEvent(
+                    track_handle=timing.track_handle,
+                    stage=timing.stage,
+                    timestamp_us=timing.timestamp_us,
+                    capture_timestamp_us=timing.capture_timestamp_us,
+                    frame_id=timing.frame_id if timing.HasField("frame_id") else None,
+                    rtp_timestamp=timing.rtp_timestamp,
+                    ssrc=timing.ssrc,
+                )
+                queue.task_done()
+        finally:
+            FfiClient.instance.queue.unsubscribe(queue)
 
     def __repr__(self) -> str:
         return f"rtc.LocalAudioTrack(sid={self.sid}, name={self.name})"

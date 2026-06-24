@@ -15,11 +15,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
 from . import audio_frame_pb2
 import builtins
 import collections.abc
 from . import data_stream_pb2
+from . import data_track_pb2
 from . import e2ee_pb2
 import google.protobuf.descriptor
 import google.protobuf.internal.containers
@@ -61,7 +61,7 @@ LOG_DEBUG: LogLevel.ValueType  # 3
 LOG_TRACE: LogLevel.ValueType  # 4
 global___LogLevel = LogLevel
 
-@typing.final
+@typing_extensions.final
 class FfiRequest(google.protobuf.message.Message):
     """**How is the livekit-ffi working:
     We refer as the ffi server the Rust server that is running the LiveKit client implementation, and we
@@ -162,12 +162,28 @@ class FfiRequest(google.protobuf.message.Message):
     TEXT_STREAM_CLOSE_FIELD_NUMBER: builtins.int
     SEND_BYTES_FIELD_NUMBER: builtins.int
     SET_REMOTE_TRACK_PUBLICATION_QUALITY_FIELD_NUMBER: builtins.int
+    OBSERVE_TRACK_PUBLISH_TIMING_FIELD_NUMBER: builtins.int
+    PUBLISH_DATA_TRACK_FIELD_NUMBER: builtins.int
+    LOCAL_DATA_TRACK_TRY_PUSH_FIELD_NUMBER: builtins.int
+    LOCAL_DATA_TRACK_UNPUBLISH_FIELD_NUMBER: builtins.int
+    LOCAL_DATA_TRACK_IS_PUBLISHED_FIELD_NUMBER: builtins.int
+    SUBSCRIBE_DATA_TRACK_FIELD_NUMBER: builtins.int
+    REMOTE_DATA_TRACK_IS_PUBLISHED_FIELD_NUMBER: builtins.int
+    DATA_TRACK_STREAM_READ_FIELD_NUMBER: builtins.int
+    REMOTE_DATA_TRACK_SET_PIPELINE_OPTIONS_FIELD_NUMBER: builtins.int
+    SIMULATE_SCENARIO_FIELD_NUMBER: builtins.int
+    NEW_PLATFORM_AUDIO_FIELD_NUMBER: builtins.int
+    GET_AUDIO_DEVICES_FIELD_NUMBER: builtins.int
+    SET_RECORDING_DEVICE_FIELD_NUMBER: builtins.int
+    SET_PLAYOUT_DEVICE_FIELD_NUMBER: builtins.int
+    START_RECORDING_FIELD_NUMBER: builtins.int
+    STOP_RECORDING_FIELD_NUMBER: builtins.int
+    READY_FOR_ROOM_EVENT_FIELD_NUMBER: builtins.int
     @property
     def dispose(self) -> global___DisposeRequest: ...
     @property
     def connect(self) -> room_pb2.ConnectRequest:
         """Room"""
-
     @property
     def disconnect(self) -> room_pb2.DisconnectRequest: ...
     @property
@@ -193,7 +209,6 @@ class FfiRequest(google.protobuf.message.Message):
     @property
     def create_video_track(self) -> track_pb2.CreateVideoTrackRequest:
         """Track"""
-
     @property
     def create_audio_track(self) -> track_pb2.CreateAudioTrackRequest: ...
     @property
@@ -207,7 +222,6 @@ class FfiRequest(google.protobuf.message.Message):
     @property
     def new_video_stream(self) -> video_frame_pb2.NewVideoStreamRequest:
         """Video"""
-
     @property
     def new_video_source(self) -> video_frame_pb2.NewVideoSourceRequest: ...
     @property
@@ -219,7 +233,6 @@ class FfiRequest(google.protobuf.message.Message):
     @property
     def new_audio_stream(self) -> audio_frame_pb2.NewAudioStreamRequest:
         """Audio"""
-
     @property
     def new_audio_source(self) -> audio_frame_pb2.NewAudioSourceRequest: ...
     @property
@@ -247,7 +260,6 @@ class FfiRequest(google.protobuf.message.Message):
     @property
     def perform_rpc(self) -> rpc_pb2.PerformRpcRequest:
         """RPC"""
-
     @property
     def register_rpc_method(self) -> rpc_pb2.RegisterRpcMethodRequest: ...
     @property
@@ -257,13 +269,11 @@ class FfiRequest(google.protobuf.message.Message):
     @property
     def enable_remote_track_publication(self) -> track_publication_pb2.EnableRemoteTrackPublicationRequest:
         """Track Publication"""
-
     @property
     def update_remote_track_publication_dimension(self) -> track_publication_pb2.UpdateRemoteTrackPublicationDimensionRequest: ...
     @property
     def send_stream_header(self) -> room_pb2.SendStreamHeaderRequest:
         """Data Streams (low level)"""
-
     @property
     def send_stream_chunk(self) -> room_pb2.SendStreamChunkRequest: ...
     @property
@@ -271,11 +281,9 @@ class FfiRequest(google.protobuf.message.Message):
     @property
     def set_data_channel_buffered_amount_low_threshold(self) -> room_pb2.SetDataChannelBufferedAmountLowThresholdRequest:
         """Data Channel"""
-
     @property
     def load_audio_filter_plugin(self) -> audio_frame_pb2.LoadAudioFilterPluginRequest:
         """Audio Filter Plugin"""
-
     @property
     def new_apm(self) -> audio_frame_pb2.NewApmRequest: ...
     @property
@@ -287,7 +295,6 @@ class FfiRequest(google.protobuf.message.Message):
     @property
     def byte_read_incremental(self) -> data_stream_pb2.ByteStreamReaderReadIncrementalRequest:
         """Data Streams (high level)"""
-
     @property
     def byte_read_all(self) -> data_stream_pb2.ByteStreamReaderReadAllRequest: ...
     @property
@@ -316,6 +323,45 @@ class FfiRequest(google.protobuf.message.Message):
     def send_bytes(self) -> data_stream_pb2.StreamSendBytesRequest: ...
     @property
     def set_remote_track_publication_quality(self) -> track_publication_pb2.SetRemoteTrackPublicationQualityRequest: ...
+    @property
+    def observe_track_publish_timing(self) -> track_pb2.ObserveTrackPublishTimingRequest: ...
+    @property
+    def publish_data_track(self) -> data_track_pb2.PublishDataTrackRequest:
+        """Data Track (local)"""
+    @property
+    def local_data_track_try_push(self) -> data_track_pb2.LocalDataTrackTryPushRequest: ...
+    @property
+    def local_data_track_unpublish(self) -> data_track_pb2.LocalDataTrackUnpublishRequest: ...
+    @property
+    def local_data_track_is_published(self) -> data_track_pb2.LocalDataTrackIsPublishedRequest: ...
+    @property
+    def subscribe_data_track(self) -> data_track_pb2.SubscribeDataTrackRequest:
+        """Data Track (remote)"""
+    @property
+    def remote_data_track_is_published(self) -> data_track_pb2.RemoteDataTrackIsPublishedRequest: ...
+    @property
+    def data_track_stream_read(self) -> data_track_pb2.DataTrackStreamReadRequest: ...
+    @property
+    def remote_data_track_set_pipeline_options(self) -> data_track_pb2.RemoteDataTrackSetPipelineOptionsRequest: ...
+    @property
+    def simulate_scenario(self) -> room_pb2.SimulateScenarioRequest:
+        """Reconnection / chaos testing"""
+    @property
+    def new_platform_audio(self) -> audio_frame_pb2.NewPlatformAudioRequest:
+        """Platform Audio (ADM)"""
+    @property
+    def get_audio_devices(self) -> audio_frame_pb2.GetAudioDevicesRequest: ...
+    @property
+    def set_recording_device(self) -> audio_frame_pb2.SetRecordingDeviceRequest: ...
+    @property
+    def set_playout_device(self) -> audio_frame_pb2.SetPlayoutDeviceRequest: ...
+    @property
+    def start_recording(self) -> audio_frame_pb2.StartRecordingRequest: ...
+    @property
+    def stop_recording(self) -> audio_frame_pb2.StopRecordingRequest: ...
+    @property
+    def ready_for_room_event(self) -> room_pb2.ReadyForRoomEventRequest:
+        """Room event ready signal"""
     def __init__(
         self,
         *,
@@ -386,14 +432,31 @@ class FfiRequest(google.protobuf.message.Message):
         text_stream_close: data_stream_pb2.TextStreamWriterCloseRequest | None = ...,
         send_bytes: data_stream_pb2.StreamSendBytesRequest | None = ...,
         set_remote_track_publication_quality: track_publication_pb2.SetRemoteTrackPublicationQualityRequest | None = ...,
+        observe_track_publish_timing: track_pb2.ObserveTrackPublishTimingRequest | None = ...,
+        publish_data_track: data_track_pb2.PublishDataTrackRequest | None = ...,
+        local_data_track_try_push: data_track_pb2.LocalDataTrackTryPushRequest | None = ...,
+        local_data_track_unpublish: data_track_pb2.LocalDataTrackUnpublishRequest | None = ...,
+        local_data_track_is_published: data_track_pb2.LocalDataTrackIsPublishedRequest | None = ...,
+        subscribe_data_track: data_track_pb2.SubscribeDataTrackRequest | None = ...,
+        remote_data_track_is_published: data_track_pb2.RemoteDataTrackIsPublishedRequest | None = ...,
+        data_track_stream_read: data_track_pb2.DataTrackStreamReadRequest | None = ...,
+        remote_data_track_set_pipeline_options: data_track_pb2.RemoteDataTrackSetPipelineOptionsRequest | None = ...,
+        simulate_scenario: room_pb2.SimulateScenarioRequest | None = ...,
+        new_platform_audio: audio_frame_pb2.NewPlatformAudioRequest | None = ...,
+        get_audio_devices: audio_frame_pb2.GetAudioDevicesRequest | None = ...,
+        set_recording_device: audio_frame_pb2.SetRecordingDeviceRequest | None = ...,
+        set_playout_device: audio_frame_pb2.SetPlayoutDeviceRequest | None = ...,
+        start_recording: audio_frame_pb2.StartRecordingRequest | None = ...,
+        stop_recording: audio_frame_pb2.StopRecordingRequest | None = ...,
+        ready_for_room_event: room_pb2.ReadyForRoomEventRequest | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["apm_process_reverse_stream", b"apm_process_reverse_stream", "apm_process_stream", b"apm_process_stream", "apm_set_stream_delay", b"apm_set_stream_delay", "audio_stream_from_participant", b"audio_stream_from_participant", "byte_read_all", b"byte_read_all", "byte_read_incremental", b"byte_read_incremental", "byte_stream_close", b"byte_stream_close", "byte_stream_open", b"byte_stream_open", "byte_stream_write", b"byte_stream_write", "byte_write_to_file", b"byte_write_to_file", "capture_audio_frame", b"capture_audio_frame", "capture_video_frame", b"capture_video_frame", "clear_audio_buffer", b"clear_audio_buffer", "connect", b"connect", "create_audio_track", b"create_audio_track", "create_video_track", b"create_video_track", "disconnect", b"disconnect", "dispose", b"dispose", "e2ee", b"e2ee", "edit_chat_message", b"edit_chat_message", "enable_remote_track", b"enable_remote_track", "enable_remote_track_publication", b"enable_remote_track_publication", "flush_sox_resampler", b"flush_sox_resampler", "get_session_stats", b"get_session_stats", "get_stats", b"get_stats", "load_audio_filter_plugin", b"load_audio_filter_plugin", "local_track_mute", b"local_track_mute", "message", b"message", "new_apm", b"new_apm", "new_audio_resampler", b"new_audio_resampler", "new_audio_source", b"new_audio_source", "new_audio_stream", b"new_audio_stream", "new_sox_resampler", b"new_sox_resampler", "new_video_source", b"new_video_source", "new_video_stream", b"new_video_stream", "perform_rpc", b"perform_rpc", "publish_data", b"publish_data", "publish_sip_dtmf", b"publish_sip_dtmf", "publish_track", b"publish_track", "publish_transcription", b"publish_transcription", "push_sox_resampler", b"push_sox_resampler", "register_rpc_method", b"register_rpc_method", "remix_and_resample", b"remix_and_resample", "rpc_method_invocation_response", b"rpc_method_invocation_response", "send_bytes", b"send_bytes", "send_chat_message", b"send_chat_message", "send_file", b"send_file", "send_stream_chunk", b"send_stream_chunk", "send_stream_header", b"send_stream_header", "send_stream_trailer", b"send_stream_trailer", "send_text", b"send_text", "set_data_channel_buffered_amount_low_threshold", b"set_data_channel_buffered_amount_low_threshold", "set_local_attributes", b"set_local_attributes", "set_local_metadata", b"set_local_metadata", "set_local_name", b"set_local_name", "set_remote_track_publication_quality", b"set_remote_track_publication_quality", "set_subscribed", b"set_subscribed", "set_track_subscription_permissions", b"set_track_subscription_permissions", "text_read_all", b"text_read_all", "text_read_incremental", b"text_read_incremental", "text_stream_close", b"text_stream_close", "text_stream_open", b"text_stream_open", "text_stream_write", b"text_stream_write", "unpublish_track", b"unpublish_track", "unregister_rpc_method", b"unregister_rpc_method", "update_remote_track_publication_dimension", b"update_remote_track_publication_dimension", "video_convert", b"video_convert", "video_stream_from_participant", b"video_stream_from_participant"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["apm_process_reverse_stream", b"apm_process_reverse_stream", "apm_process_stream", b"apm_process_stream", "apm_set_stream_delay", b"apm_set_stream_delay", "audio_stream_from_participant", b"audio_stream_from_participant", "byte_read_all", b"byte_read_all", "byte_read_incremental", b"byte_read_incremental", "byte_stream_close", b"byte_stream_close", "byte_stream_open", b"byte_stream_open", "byte_stream_write", b"byte_stream_write", "byte_write_to_file", b"byte_write_to_file", "capture_audio_frame", b"capture_audio_frame", "capture_video_frame", b"capture_video_frame", "clear_audio_buffer", b"clear_audio_buffer", "connect", b"connect", "create_audio_track", b"create_audio_track", "create_video_track", b"create_video_track", "disconnect", b"disconnect", "dispose", b"dispose", "e2ee", b"e2ee", "edit_chat_message", b"edit_chat_message", "enable_remote_track", b"enable_remote_track", "enable_remote_track_publication", b"enable_remote_track_publication", "flush_sox_resampler", b"flush_sox_resampler", "get_session_stats", b"get_session_stats", "get_stats", b"get_stats", "load_audio_filter_plugin", b"load_audio_filter_plugin", "local_track_mute", b"local_track_mute", "message", b"message", "new_apm", b"new_apm", "new_audio_resampler", b"new_audio_resampler", "new_audio_source", b"new_audio_source", "new_audio_stream", b"new_audio_stream", "new_sox_resampler", b"new_sox_resampler", "new_video_source", b"new_video_source", "new_video_stream", b"new_video_stream", "perform_rpc", b"perform_rpc", "publish_data", b"publish_data", "publish_sip_dtmf", b"publish_sip_dtmf", "publish_track", b"publish_track", "publish_transcription", b"publish_transcription", "push_sox_resampler", b"push_sox_resampler", "register_rpc_method", b"register_rpc_method", "remix_and_resample", b"remix_and_resample", "rpc_method_invocation_response", b"rpc_method_invocation_response", "send_bytes", b"send_bytes", "send_chat_message", b"send_chat_message", "send_file", b"send_file", "send_stream_chunk", b"send_stream_chunk", "send_stream_header", b"send_stream_header", "send_stream_trailer", b"send_stream_trailer", "send_text", b"send_text", "set_data_channel_buffered_amount_low_threshold", b"set_data_channel_buffered_amount_low_threshold", "set_local_attributes", b"set_local_attributes", "set_local_metadata", b"set_local_metadata", "set_local_name", b"set_local_name", "set_remote_track_publication_quality", b"set_remote_track_publication_quality", "set_subscribed", b"set_subscribed", "set_track_subscription_permissions", b"set_track_subscription_permissions", "text_read_all", b"text_read_all", "text_read_incremental", b"text_read_incremental", "text_stream_close", b"text_stream_close", "text_stream_open", b"text_stream_open", "text_stream_write", b"text_stream_write", "unpublish_track", b"unpublish_track", "unregister_rpc_method", b"unregister_rpc_method", "update_remote_track_publication_dimension", b"update_remote_track_publication_dimension", "video_convert", b"video_convert", "video_stream_from_participant", b"video_stream_from_participant"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing.Literal["message", b"message"]) -> typing.Literal["dispose", "connect", "disconnect", "publish_track", "unpublish_track", "publish_data", "set_subscribed", "set_local_metadata", "set_local_name", "set_local_attributes", "get_session_stats", "publish_transcription", "publish_sip_dtmf", "create_video_track", "create_audio_track", "local_track_mute", "enable_remote_track", "get_stats", "set_track_subscription_permissions", "new_video_stream", "new_video_source", "capture_video_frame", "video_convert", "video_stream_from_participant", "new_audio_stream", "new_audio_source", "capture_audio_frame", "clear_audio_buffer", "new_audio_resampler", "remix_and_resample", "e2ee", "audio_stream_from_participant", "new_sox_resampler", "push_sox_resampler", "flush_sox_resampler", "send_chat_message", "edit_chat_message", "perform_rpc", "register_rpc_method", "unregister_rpc_method", "rpc_method_invocation_response", "enable_remote_track_publication", "update_remote_track_publication_dimension", "send_stream_header", "send_stream_chunk", "send_stream_trailer", "set_data_channel_buffered_amount_low_threshold", "load_audio_filter_plugin", "new_apm", "apm_process_stream", "apm_process_reverse_stream", "apm_set_stream_delay", "byte_read_incremental", "byte_read_all", "byte_write_to_file", "text_read_incremental", "text_read_all", "send_file", "send_text", "byte_stream_open", "byte_stream_write", "byte_stream_close", "text_stream_open", "text_stream_write", "text_stream_close", "send_bytes", "set_remote_track_publication_quality"] | None: ...
+    def HasField(self, field_name: typing_extensions.Literal["apm_process_reverse_stream", b"apm_process_reverse_stream", "apm_process_stream", b"apm_process_stream", "apm_set_stream_delay", b"apm_set_stream_delay", "audio_stream_from_participant", b"audio_stream_from_participant", "byte_read_all", b"byte_read_all", "byte_read_incremental", b"byte_read_incremental", "byte_stream_close", b"byte_stream_close", "byte_stream_open", b"byte_stream_open", "byte_stream_write", b"byte_stream_write", "byte_write_to_file", b"byte_write_to_file", "capture_audio_frame", b"capture_audio_frame", "capture_video_frame", b"capture_video_frame", "clear_audio_buffer", b"clear_audio_buffer", "connect", b"connect", "create_audio_track", b"create_audio_track", "create_video_track", b"create_video_track", "data_track_stream_read", b"data_track_stream_read", "disconnect", b"disconnect", "dispose", b"dispose", "e2ee", b"e2ee", "edit_chat_message", b"edit_chat_message", "enable_remote_track", b"enable_remote_track", "enable_remote_track_publication", b"enable_remote_track_publication", "flush_sox_resampler", b"flush_sox_resampler", "get_audio_devices", b"get_audio_devices", "get_session_stats", b"get_session_stats", "get_stats", b"get_stats", "load_audio_filter_plugin", b"load_audio_filter_plugin", "local_data_track_is_published", b"local_data_track_is_published", "local_data_track_try_push", b"local_data_track_try_push", "local_data_track_unpublish", b"local_data_track_unpublish", "local_track_mute", b"local_track_mute", "message", b"message", "new_apm", b"new_apm", "new_audio_resampler", b"new_audio_resampler", "new_audio_source", b"new_audio_source", "new_audio_stream", b"new_audio_stream", "new_platform_audio", b"new_platform_audio", "new_sox_resampler", b"new_sox_resampler", "new_video_source", b"new_video_source", "new_video_stream", b"new_video_stream", "observe_track_publish_timing", b"observe_track_publish_timing", "perform_rpc", b"perform_rpc", "publish_data", b"publish_data", "publish_data_track", b"publish_data_track", "publish_sip_dtmf", b"publish_sip_dtmf", "publish_track", b"publish_track", "publish_transcription", b"publish_transcription", "push_sox_resampler", b"push_sox_resampler", "ready_for_room_event", b"ready_for_room_event", "register_rpc_method", b"register_rpc_method", "remix_and_resample", b"remix_and_resample", "remote_data_track_is_published", b"remote_data_track_is_published", "remote_data_track_set_pipeline_options", b"remote_data_track_set_pipeline_options", "rpc_method_invocation_response", b"rpc_method_invocation_response", "send_bytes", b"send_bytes", "send_chat_message", b"send_chat_message", "send_file", b"send_file", "send_stream_chunk", b"send_stream_chunk", "send_stream_header", b"send_stream_header", "send_stream_trailer", b"send_stream_trailer", "send_text", b"send_text", "set_data_channel_buffered_amount_low_threshold", b"set_data_channel_buffered_amount_low_threshold", "set_local_attributes", b"set_local_attributes", "set_local_metadata", b"set_local_metadata", "set_local_name", b"set_local_name", "set_playout_device", b"set_playout_device", "set_recording_device", b"set_recording_device", "set_remote_track_publication_quality", b"set_remote_track_publication_quality", "set_subscribed", b"set_subscribed", "set_track_subscription_permissions", b"set_track_subscription_permissions", "simulate_scenario", b"simulate_scenario", "start_recording", b"start_recording", "stop_recording", b"stop_recording", "subscribe_data_track", b"subscribe_data_track", "text_read_all", b"text_read_all", "text_read_incremental", b"text_read_incremental", "text_stream_close", b"text_stream_close", "text_stream_open", b"text_stream_open", "text_stream_write", b"text_stream_write", "unpublish_track", b"unpublish_track", "unregister_rpc_method", b"unregister_rpc_method", "update_remote_track_publication_dimension", b"update_remote_track_publication_dimension", "video_convert", b"video_convert", "video_stream_from_participant", b"video_stream_from_participant"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["apm_process_reverse_stream", b"apm_process_reverse_stream", "apm_process_stream", b"apm_process_stream", "apm_set_stream_delay", b"apm_set_stream_delay", "audio_stream_from_participant", b"audio_stream_from_participant", "byte_read_all", b"byte_read_all", "byte_read_incremental", b"byte_read_incremental", "byte_stream_close", b"byte_stream_close", "byte_stream_open", b"byte_stream_open", "byte_stream_write", b"byte_stream_write", "byte_write_to_file", b"byte_write_to_file", "capture_audio_frame", b"capture_audio_frame", "capture_video_frame", b"capture_video_frame", "clear_audio_buffer", b"clear_audio_buffer", "connect", b"connect", "create_audio_track", b"create_audio_track", "create_video_track", b"create_video_track", "data_track_stream_read", b"data_track_stream_read", "disconnect", b"disconnect", "dispose", b"dispose", "e2ee", b"e2ee", "edit_chat_message", b"edit_chat_message", "enable_remote_track", b"enable_remote_track", "enable_remote_track_publication", b"enable_remote_track_publication", "flush_sox_resampler", b"flush_sox_resampler", "get_audio_devices", b"get_audio_devices", "get_session_stats", b"get_session_stats", "get_stats", b"get_stats", "load_audio_filter_plugin", b"load_audio_filter_plugin", "local_data_track_is_published", b"local_data_track_is_published", "local_data_track_try_push", b"local_data_track_try_push", "local_data_track_unpublish", b"local_data_track_unpublish", "local_track_mute", b"local_track_mute", "message", b"message", "new_apm", b"new_apm", "new_audio_resampler", b"new_audio_resampler", "new_audio_source", b"new_audio_source", "new_audio_stream", b"new_audio_stream", "new_platform_audio", b"new_platform_audio", "new_sox_resampler", b"new_sox_resampler", "new_video_source", b"new_video_source", "new_video_stream", b"new_video_stream", "observe_track_publish_timing", b"observe_track_publish_timing", "perform_rpc", b"perform_rpc", "publish_data", b"publish_data", "publish_data_track", b"publish_data_track", "publish_sip_dtmf", b"publish_sip_dtmf", "publish_track", b"publish_track", "publish_transcription", b"publish_transcription", "push_sox_resampler", b"push_sox_resampler", "ready_for_room_event", b"ready_for_room_event", "register_rpc_method", b"register_rpc_method", "remix_and_resample", b"remix_and_resample", "remote_data_track_is_published", b"remote_data_track_is_published", "remote_data_track_set_pipeline_options", b"remote_data_track_set_pipeline_options", "rpc_method_invocation_response", b"rpc_method_invocation_response", "send_bytes", b"send_bytes", "send_chat_message", b"send_chat_message", "send_file", b"send_file", "send_stream_chunk", b"send_stream_chunk", "send_stream_header", b"send_stream_header", "send_stream_trailer", b"send_stream_trailer", "send_text", b"send_text", "set_data_channel_buffered_amount_low_threshold", b"set_data_channel_buffered_amount_low_threshold", "set_local_attributes", b"set_local_attributes", "set_local_metadata", b"set_local_metadata", "set_local_name", b"set_local_name", "set_playout_device", b"set_playout_device", "set_recording_device", b"set_recording_device", "set_remote_track_publication_quality", b"set_remote_track_publication_quality", "set_subscribed", b"set_subscribed", "set_track_subscription_permissions", b"set_track_subscription_permissions", "simulate_scenario", b"simulate_scenario", "start_recording", b"start_recording", "stop_recording", b"stop_recording", "subscribe_data_track", b"subscribe_data_track", "text_read_all", b"text_read_all", "text_read_incremental", b"text_read_incremental", "text_stream_close", b"text_stream_close", "text_stream_open", b"text_stream_open", "text_stream_write", b"text_stream_write", "unpublish_track", b"unpublish_track", "unregister_rpc_method", b"unregister_rpc_method", "update_remote_track_publication_dimension", b"update_remote_track_publication_dimension", "video_convert", b"video_convert", "video_stream_from_participant", b"video_stream_from_participant"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["message", b"message"]) -> typing_extensions.Literal["dispose", "connect", "disconnect", "publish_track", "unpublish_track", "publish_data", "set_subscribed", "set_local_metadata", "set_local_name", "set_local_attributes", "get_session_stats", "publish_transcription", "publish_sip_dtmf", "create_video_track", "create_audio_track", "local_track_mute", "enable_remote_track", "get_stats", "set_track_subscription_permissions", "new_video_stream", "new_video_source", "capture_video_frame", "video_convert", "video_stream_from_participant", "new_audio_stream", "new_audio_source", "capture_audio_frame", "clear_audio_buffer", "new_audio_resampler", "remix_and_resample", "e2ee", "audio_stream_from_participant", "new_sox_resampler", "push_sox_resampler", "flush_sox_resampler", "send_chat_message", "edit_chat_message", "perform_rpc", "register_rpc_method", "unregister_rpc_method", "rpc_method_invocation_response", "enable_remote_track_publication", "update_remote_track_publication_dimension", "send_stream_header", "send_stream_chunk", "send_stream_trailer", "set_data_channel_buffered_amount_low_threshold", "load_audio_filter_plugin", "new_apm", "apm_process_stream", "apm_process_reverse_stream", "apm_set_stream_delay", "byte_read_incremental", "byte_read_all", "byte_write_to_file", "text_read_incremental", "text_read_all", "send_file", "send_text", "byte_stream_open", "byte_stream_write", "byte_stream_close", "text_stream_open", "text_stream_write", "text_stream_close", "send_bytes", "set_remote_track_publication_quality", "observe_track_publish_timing", "publish_data_track", "local_data_track_try_push", "local_data_track_unpublish", "local_data_track_is_published", "subscribe_data_track", "remote_data_track_is_published", "data_track_stream_read", "remote_data_track_set_pipeline_options", "simulate_scenario", "new_platform_audio", "get_audio_devices", "set_recording_device", "set_playout_device", "start_recording", "stop_recording", "ready_for_room_event"] | None: ...
 
 global___FfiRequest = FfiRequest
 
-@typing.final
+@typing_extensions.final
 class FfiResponse(google.protobuf.message.Message):
     """This is the output of livekit_ffi_request function."""
 
@@ -465,12 +528,28 @@ class FfiResponse(google.protobuf.message.Message):
     TEXT_STREAM_CLOSE_FIELD_NUMBER: builtins.int
     SEND_BYTES_FIELD_NUMBER: builtins.int
     SET_REMOTE_TRACK_PUBLICATION_QUALITY_FIELD_NUMBER: builtins.int
+    OBSERVE_TRACK_PUBLISH_TIMING_FIELD_NUMBER: builtins.int
+    PUBLISH_DATA_TRACK_FIELD_NUMBER: builtins.int
+    LOCAL_DATA_TRACK_TRY_PUSH_FIELD_NUMBER: builtins.int
+    LOCAL_DATA_TRACK_UNPUBLISH_FIELD_NUMBER: builtins.int
+    LOCAL_DATA_TRACK_IS_PUBLISHED_FIELD_NUMBER: builtins.int
+    SUBSCRIBE_DATA_TRACK_FIELD_NUMBER: builtins.int
+    REMOTE_DATA_TRACK_IS_PUBLISHED_FIELD_NUMBER: builtins.int
+    DATA_TRACK_STREAM_READ_FIELD_NUMBER: builtins.int
+    REMOTE_DATA_TRACK_SET_PIPELINE_OPTIONS_FIELD_NUMBER: builtins.int
+    SIMULATE_SCENARIO_FIELD_NUMBER: builtins.int
+    NEW_PLATFORM_AUDIO_FIELD_NUMBER: builtins.int
+    GET_AUDIO_DEVICES_FIELD_NUMBER: builtins.int
+    SET_RECORDING_DEVICE_FIELD_NUMBER: builtins.int
+    SET_PLAYOUT_DEVICE_FIELD_NUMBER: builtins.int
+    START_RECORDING_FIELD_NUMBER: builtins.int
+    STOP_RECORDING_FIELD_NUMBER: builtins.int
+    READY_FOR_ROOM_EVENT_FIELD_NUMBER: builtins.int
     @property
     def dispose(self) -> global___DisposeResponse: ...
     @property
     def connect(self) -> room_pb2.ConnectResponse:
         """Room"""
-
     @property
     def disconnect(self) -> room_pb2.DisconnectResponse: ...
     @property
@@ -496,7 +575,6 @@ class FfiResponse(google.protobuf.message.Message):
     @property
     def create_video_track(self) -> track_pb2.CreateVideoTrackResponse:
         """Track"""
-
     @property
     def create_audio_track(self) -> track_pb2.CreateAudioTrackResponse: ...
     @property
@@ -510,7 +588,6 @@ class FfiResponse(google.protobuf.message.Message):
     @property
     def new_video_stream(self) -> video_frame_pb2.NewVideoStreamResponse:
         """Video"""
-
     @property
     def new_video_source(self) -> video_frame_pb2.NewVideoSourceResponse: ...
     @property
@@ -522,7 +599,6 @@ class FfiResponse(google.protobuf.message.Message):
     @property
     def new_audio_stream(self) -> audio_frame_pb2.NewAudioStreamResponse:
         """Audio"""
-
     @property
     def new_audio_source(self) -> audio_frame_pb2.NewAudioSourceResponse: ...
     @property
@@ -548,7 +624,6 @@ class FfiResponse(google.protobuf.message.Message):
     @property
     def perform_rpc(self) -> rpc_pb2.PerformRpcResponse:
         """RPC"""
-
     @property
     def register_rpc_method(self) -> rpc_pb2.RegisterRpcMethodResponse: ...
     @property
@@ -558,13 +633,11 @@ class FfiResponse(google.protobuf.message.Message):
     @property
     def enable_remote_track_publication(self) -> track_publication_pb2.EnableRemoteTrackPublicationResponse:
         """Track Publication"""
-
     @property
     def update_remote_track_publication_dimension(self) -> track_publication_pb2.UpdateRemoteTrackPublicationDimensionResponse: ...
     @property
     def send_stream_header(self) -> room_pb2.SendStreamHeaderResponse:
         """Data Streams"""
-
     @property
     def send_stream_chunk(self) -> room_pb2.SendStreamChunkResponse: ...
     @property
@@ -572,11 +645,9 @@ class FfiResponse(google.protobuf.message.Message):
     @property
     def set_data_channel_buffered_amount_low_threshold(self) -> room_pb2.SetDataChannelBufferedAmountLowThresholdResponse:
         """Data Channel"""
-
     @property
     def load_audio_filter_plugin(self) -> audio_frame_pb2.LoadAudioFilterPluginResponse:
         """Audio Filter Plugin"""
-
     @property
     def new_apm(self) -> audio_frame_pb2.NewApmResponse: ...
     @property
@@ -588,7 +659,6 @@ class FfiResponse(google.protobuf.message.Message):
     @property
     def byte_read_incremental(self) -> data_stream_pb2.ByteStreamReaderReadIncrementalResponse:
         """Data Streams (high level)"""
-
     @property
     def byte_read_all(self) -> data_stream_pb2.ByteStreamReaderReadAllResponse: ...
     @property
@@ -617,6 +687,45 @@ class FfiResponse(google.protobuf.message.Message):
     def send_bytes(self) -> data_stream_pb2.StreamSendBytesResponse: ...
     @property
     def set_remote_track_publication_quality(self) -> track_publication_pb2.SetRemoteTrackPublicationQualityResponse: ...
+    @property
+    def observe_track_publish_timing(self) -> track_pb2.ObserveTrackPublishTimingResponse: ...
+    @property
+    def publish_data_track(self) -> data_track_pb2.PublishDataTrackResponse:
+        """Data Track (local)"""
+    @property
+    def local_data_track_try_push(self) -> data_track_pb2.LocalDataTrackTryPushResponse: ...
+    @property
+    def local_data_track_unpublish(self) -> data_track_pb2.LocalDataTrackUnpublishResponse: ...
+    @property
+    def local_data_track_is_published(self) -> data_track_pb2.LocalDataTrackIsPublishedResponse: ...
+    @property
+    def subscribe_data_track(self) -> data_track_pb2.SubscribeDataTrackResponse:
+        """Data Track (remote)"""
+    @property
+    def remote_data_track_is_published(self) -> data_track_pb2.RemoteDataTrackIsPublishedResponse: ...
+    @property
+    def data_track_stream_read(self) -> data_track_pb2.DataTrackStreamReadResponse: ...
+    @property
+    def remote_data_track_set_pipeline_options(self) -> data_track_pb2.RemoteDataTrackSetPipelineOptionsResponse: ...
+    @property
+    def simulate_scenario(self) -> room_pb2.SimulateScenarioResponse:
+        """Reconnection / chaos testing"""
+    @property
+    def new_platform_audio(self) -> audio_frame_pb2.NewPlatformAudioResponse:
+        """Platform Audio (ADM)"""
+    @property
+    def get_audio_devices(self) -> audio_frame_pb2.GetAudioDevicesResponse: ...
+    @property
+    def set_recording_device(self) -> audio_frame_pb2.SetRecordingDeviceResponse: ...
+    @property
+    def set_playout_device(self) -> audio_frame_pb2.SetPlayoutDeviceResponse: ...
+    @property
+    def start_recording(self) -> audio_frame_pb2.StartRecordingResponse: ...
+    @property
+    def stop_recording(self) -> audio_frame_pb2.StopRecordingResponse: ...
+    @property
+    def ready_for_room_event(self) -> room_pb2.ReadyForRoomEventResponse:
+        """Room event ready signal"""
     def __init__(
         self,
         *,
@@ -686,14 +795,31 @@ class FfiResponse(google.protobuf.message.Message):
         text_stream_close: data_stream_pb2.TextStreamWriterCloseResponse | None = ...,
         send_bytes: data_stream_pb2.StreamSendBytesResponse | None = ...,
         set_remote_track_publication_quality: track_publication_pb2.SetRemoteTrackPublicationQualityResponse | None = ...,
+        observe_track_publish_timing: track_pb2.ObserveTrackPublishTimingResponse | None = ...,
+        publish_data_track: data_track_pb2.PublishDataTrackResponse | None = ...,
+        local_data_track_try_push: data_track_pb2.LocalDataTrackTryPushResponse | None = ...,
+        local_data_track_unpublish: data_track_pb2.LocalDataTrackUnpublishResponse | None = ...,
+        local_data_track_is_published: data_track_pb2.LocalDataTrackIsPublishedResponse | None = ...,
+        subscribe_data_track: data_track_pb2.SubscribeDataTrackResponse | None = ...,
+        remote_data_track_is_published: data_track_pb2.RemoteDataTrackIsPublishedResponse | None = ...,
+        data_track_stream_read: data_track_pb2.DataTrackStreamReadResponse | None = ...,
+        remote_data_track_set_pipeline_options: data_track_pb2.RemoteDataTrackSetPipelineOptionsResponse | None = ...,
+        simulate_scenario: room_pb2.SimulateScenarioResponse | None = ...,
+        new_platform_audio: audio_frame_pb2.NewPlatformAudioResponse | None = ...,
+        get_audio_devices: audio_frame_pb2.GetAudioDevicesResponse | None = ...,
+        set_recording_device: audio_frame_pb2.SetRecordingDeviceResponse | None = ...,
+        set_playout_device: audio_frame_pb2.SetPlayoutDeviceResponse | None = ...,
+        start_recording: audio_frame_pb2.StartRecordingResponse | None = ...,
+        stop_recording: audio_frame_pb2.StopRecordingResponse | None = ...,
+        ready_for_room_event: room_pb2.ReadyForRoomEventResponse | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["apm_process_reverse_stream", b"apm_process_reverse_stream", "apm_process_stream", b"apm_process_stream", "apm_set_stream_delay", b"apm_set_stream_delay", "audio_stream_from_participant", b"audio_stream_from_participant", "byte_read_all", b"byte_read_all", "byte_read_incremental", b"byte_read_incremental", "byte_stream_close", b"byte_stream_close", "byte_stream_open", b"byte_stream_open", "byte_stream_write", b"byte_stream_write", "byte_write_to_file", b"byte_write_to_file", "capture_audio_frame", b"capture_audio_frame", "capture_video_frame", b"capture_video_frame", "clear_audio_buffer", b"clear_audio_buffer", "connect", b"connect", "create_audio_track", b"create_audio_track", "create_video_track", b"create_video_track", "disconnect", b"disconnect", "dispose", b"dispose", "e2ee", b"e2ee", "enable_remote_track", b"enable_remote_track", "enable_remote_track_publication", b"enable_remote_track_publication", "flush_sox_resampler", b"flush_sox_resampler", "get_session_stats", b"get_session_stats", "get_stats", b"get_stats", "load_audio_filter_plugin", b"load_audio_filter_plugin", "local_track_mute", b"local_track_mute", "message", b"message", "new_apm", b"new_apm", "new_audio_resampler", b"new_audio_resampler", "new_audio_source", b"new_audio_source", "new_audio_stream", b"new_audio_stream", "new_sox_resampler", b"new_sox_resampler", "new_video_source", b"new_video_source", "new_video_stream", b"new_video_stream", "perform_rpc", b"perform_rpc", "publish_data", b"publish_data", "publish_sip_dtmf", b"publish_sip_dtmf", "publish_track", b"publish_track", "publish_transcription", b"publish_transcription", "push_sox_resampler", b"push_sox_resampler", "register_rpc_method", b"register_rpc_method", "remix_and_resample", b"remix_and_resample", "rpc_method_invocation_response", b"rpc_method_invocation_response", "send_bytes", b"send_bytes", "send_chat_message", b"send_chat_message", "send_file", b"send_file", "send_stream_chunk", b"send_stream_chunk", "send_stream_header", b"send_stream_header", "send_stream_trailer", b"send_stream_trailer", "send_text", b"send_text", "set_data_channel_buffered_amount_low_threshold", b"set_data_channel_buffered_amount_low_threshold", "set_local_attributes", b"set_local_attributes", "set_local_metadata", b"set_local_metadata", "set_local_name", b"set_local_name", "set_remote_track_publication_quality", b"set_remote_track_publication_quality", "set_subscribed", b"set_subscribed", "set_track_subscription_permissions", b"set_track_subscription_permissions", "text_read_all", b"text_read_all", "text_read_incremental", b"text_read_incremental", "text_stream_close", b"text_stream_close", "text_stream_open", b"text_stream_open", "text_stream_write", b"text_stream_write", "unpublish_track", b"unpublish_track", "unregister_rpc_method", b"unregister_rpc_method", "update_remote_track_publication_dimension", b"update_remote_track_publication_dimension", "video_convert", b"video_convert", "video_stream_from_participant", b"video_stream_from_participant"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["apm_process_reverse_stream", b"apm_process_reverse_stream", "apm_process_stream", b"apm_process_stream", "apm_set_stream_delay", b"apm_set_stream_delay", "audio_stream_from_participant", b"audio_stream_from_participant", "byte_read_all", b"byte_read_all", "byte_read_incremental", b"byte_read_incremental", "byte_stream_close", b"byte_stream_close", "byte_stream_open", b"byte_stream_open", "byte_stream_write", b"byte_stream_write", "byte_write_to_file", b"byte_write_to_file", "capture_audio_frame", b"capture_audio_frame", "capture_video_frame", b"capture_video_frame", "clear_audio_buffer", b"clear_audio_buffer", "connect", b"connect", "create_audio_track", b"create_audio_track", "create_video_track", b"create_video_track", "disconnect", b"disconnect", "dispose", b"dispose", "e2ee", b"e2ee", "enable_remote_track", b"enable_remote_track", "enable_remote_track_publication", b"enable_remote_track_publication", "flush_sox_resampler", b"flush_sox_resampler", "get_session_stats", b"get_session_stats", "get_stats", b"get_stats", "load_audio_filter_plugin", b"load_audio_filter_plugin", "local_track_mute", b"local_track_mute", "message", b"message", "new_apm", b"new_apm", "new_audio_resampler", b"new_audio_resampler", "new_audio_source", b"new_audio_source", "new_audio_stream", b"new_audio_stream", "new_sox_resampler", b"new_sox_resampler", "new_video_source", b"new_video_source", "new_video_stream", b"new_video_stream", "perform_rpc", b"perform_rpc", "publish_data", b"publish_data", "publish_sip_dtmf", b"publish_sip_dtmf", "publish_track", b"publish_track", "publish_transcription", b"publish_transcription", "push_sox_resampler", b"push_sox_resampler", "register_rpc_method", b"register_rpc_method", "remix_and_resample", b"remix_and_resample", "rpc_method_invocation_response", b"rpc_method_invocation_response", "send_bytes", b"send_bytes", "send_chat_message", b"send_chat_message", "send_file", b"send_file", "send_stream_chunk", b"send_stream_chunk", "send_stream_header", b"send_stream_header", "send_stream_trailer", b"send_stream_trailer", "send_text", b"send_text", "set_data_channel_buffered_amount_low_threshold", b"set_data_channel_buffered_amount_low_threshold", "set_local_attributes", b"set_local_attributes", "set_local_metadata", b"set_local_metadata", "set_local_name", b"set_local_name", "set_remote_track_publication_quality", b"set_remote_track_publication_quality", "set_subscribed", b"set_subscribed", "set_track_subscription_permissions", b"set_track_subscription_permissions", "text_read_all", b"text_read_all", "text_read_incremental", b"text_read_incremental", "text_stream_close", b"text_stream_close", "text_stream_open", b"text_stream_open", "text_stream_write", b"text_stream_write", "unpublish_track", b"unpublish_track", "unregister_rpc_method", b"unregister_rpc_method", "update_remote_track_publication_dimension", b"update_remote_track_publication_dimension", "video_convert", b"video_convert", "video_stream_from_participant", b"video_stream_from_participant"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing.Literal["message", b"message"]) -> typing.Literal["dispose", "connect", "disconnect", "publish_track", "unpublish_track", "publish_data", "set_subscribed", "set_local_metadata", "set_local_name", "set_local_attributes", "get_session_stats", "publish_transcription", "publish_sip_dtmf", "create_video_track", "create_audio_track", "local_track_mute", "enable_remote_track", "get_stats", "set_track_subscription_permissions", "new_video_stream", "new_video_source", "capture_video_frame", "video_convert", "video_stream_from_participant", "new_audio_stream", "new_audio_source", "capture_audio_frame", "clear_audio_buffer", "new_audio_resampler", "remix_and_resample", "audio_stream_from_participant", "e2ee", "new_sox_resampler", "push_sox_resampler", "flush_sox_resampler", "send_chat_message", "perform_rpc", "register_rpc_method", "unregister_rpc_method", "rpc_method_invocation_response", "enable_remote_track_publication", "update_remote_track_publication_dimension", "send_stream_header", "send_stream_chunk", "send_stream_trailer", "set_data_channel_buffered_amount_low_threshold", "load_audio_filter_plugin", "new_apm", "apm_process_stream", "apm_process_reverse_stream", "apm_set_stream_delay", "byte_read_incremental", "byte_read_all", "byte_write_to_file", "text_read_incremental", "text_read_all", "send_file", "send_text", "byte_stream_open", "byte_stream_write", "byte_stream_close", "text_stream_open", "text_stream_write", "text_stream_close", "send_bytes", "set_remote_track_publication_quality"] | None: ...
+    def HasField(self, field_name: typing_extensions.Literal["apm_process_reverse_stream", b"apm_process_reverse_stream", "apm_process_stream", b"apm_process_stream", "apm_set_stream_delay", b"apm_set_stream_delay", "audio_stream_from_participant", b"audio_stream_from_participant", "byte_read_all", b"byte_read_all", "byte_read_incremental", b"byte_read_incremental", "byte_stream_close", b"byte_stream_close", "byte_stream_open", b"byte_stream_open", "byte_stream_write", b"byte_stream_write", "byte_write_to_file", b"byte_write_to_file", "capture_audio_frame", b"capture_audio_frame", "capture_video_frame", b"capture_video_frame", "clear_audio_buffer", b"clear_audio_buffer", "connect", b"connect", "create_audio_track", b"create_audio_track", "create_video_track", b"create_video_track", "data_track_stream_read", b"data_track_stream_read", "disconnect", b"disconnect", "dispose", b"dispose", "e2ee", b"e2ee", "enable_remote_track", b"enable_remote_track", "enable_remote_track_publication", b"enable_remote_track_publication", "flush_sox_resampler", b"flush_sox_resampler", "get_audio_devices", b"get_audio_devices", "get_session_stats", b"get_session_stats", "get_stats", b"get_stats", "load_audio_filter_plugin", b"load_audio_filter_plugin", "local_data_track_is_published", b"local_data_track_is_published", "local_data_track_try_push", b"local_data_track_try_push", "local_data_track_unpublish", b"local_data_track_unpublish", "local_track_mute", b"local_track_mute", "message", b"message", "new_apm", b"new_apm", "new_audio_resampler", b"new_audio_resampler", "new_audio_source", b"new_audio_source", "new_audio_stream", b"new_audio_stream", "new_platform_audio", b"new_platform_audio", "new_sox_resampler", b"new_sox_resampler", "new_video_source", b"new_video_source", "new_video_stream", b"new_video_stream", "observe_track_publish_timing", b"observe_track_publish_timing", "perform_rpc", b"perform_rpc", "publish_data", b"publish_data", "publish_data_track", b"publish_data_track", "publish_sip_dtmf", b"publish_sip_dtmf", "publish_track", b"publish_track", "publish_transcription", b"publish_transcription", "push_sox_resampler", b"push_sox_resampler", "ready_for_room_event", b"ready_for_room_event", "register_rpc_method", b"register_rpc_method", "remix_and_resample", b"remix_and_resample", "remote_data_track_is_published", b"remote_data_track_is_published", "remote_data_track_set_pipeline_options", b"remote_data_track_set_pipeline_options", "rpc_method_invocation_response", b"rpc_method_invocation_response", "send_bytes", b"send_bytes", "send_chat_message", b"send_chat_message", "send_file", b"send_file", "send_stream_chunk", b"send_stream_chunk", "send_stream_header", b"send_stream_header", "send_stream_trailer", b"send_stream_trailer", "send_text", b"send_text", "set_data_channel_buffered_amount_low_threshold", b"set_data_channel_buffered_amount_low_threshold", "set_local_attributes", b"set_local_attributes", "set_local_metadata", b"set_local_metadata", "set_local_name", b"set_local_name", "set_playout_device", b"set_playout_device", "set_recording_device", b"set_recording_device", "set_remote_track_publication_quality", b"set_remote_track_publication_quality", "set_subscribed", b"set_subscribed", "set_track_subscription_permissions", b"set_track_subscription_permissions", "simulate_scenario", b"simulate_scenario", "start_recording", b"start_recording", "stop_recording", b"stop_recording", "subscribe_data_track", b"subscribe_data_track", "text_read_all", b"text_read_all", "text_read_incremental", b"text_read_incremental", "text_stream_close", b"text_stream_close", "text_stream_open", b"text_stream_open", "text_stream_write", b"text_stream_write", "unpublish_track", b"unpublish_track", "unregister_rpc_method", b"unregister_rpc_method", "update_remote_track_publication_dimension", b"update_remote_track_publication_dimension", "video_convert", b"video_convert", "video_stream_from_participant", b"video_stream_from_participant"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["apm_process_reverse_stream", b"apm_process_reverse_stream", "apm_process_stream", b"apm_process_stream", "apm_set_stream_delay", b"apm_set_stream_delay", "audio_stream_from_participant", b"audio_stream_from_participant", "byte_read_all", b"byte_read_all", "byte_read_incremental", b"byte_read_incremental", "byte_stream_close", b"byte_stream_close", "byte_stream_open", b"byte_stream_open", "byte_stream_write", b"byte_stream_write", "byte_write_to_file", b"byte_write_to_file", "capture_audio_frame", b"capture_audio_frame", "capture_video_frame", b"capture_video_frame", "clear_audio_buffer", b"clear_audio_buffer", "connect", b"connect", "create_audio_track", b"create_audio_track", "create_video_track", b"create_video_track", "data_track_stream_read", b"data_track_stream_read", "disconnect", b"disconnect", "dispose", b"dispose", "e2ee", b"e2ee", "enable_remote_track", b"enable_remote_track", "enable_remote_track_publication", b"enable_remote_track_publication", "flush_sox_resampler", b"flush_sox_resampler", "get_audio_devices", b"get_audio_devices", "get_session_stats", b"get_session_stats", "get_stats", b"get_stats", "load_audio_filter_plugin", b"load_audio_filter_plugin", "local_data_track_is_published", b"local_data_track_is_published", "local_data_track_try_push", b"local_data_track_try_push", "local_data_track_unpublish", b"local_data_track_unpublish", "local_track_mute", b"local_track_mute", "message", b"message", "new_apm", b"new_apm", "new_audio_resampler", b"new_audio_resampler", "new_audio_source", b"new_audio_source", "new_audio_stream", b"new_audio_stream", "new_platform_audio", b"new_platform_audio", "new_sox_resampler", b"new_sox_resampler", "new_video_source", b"new_video_source", "new_video_stream", b"new_video_stream", "observe_track_publish_timing", b"observe_track_publish_timing", "perform_rpc", b"perform_rpc", "publish_data", b"publish_data", "publish_data_track", b"publish_data_track", "publish_sip_dtmf", b"publish_sip_dtmf", "publish_track", b"publish_track", "publish_transcription", b"publish_transcription", "push_sox_resampler", b"push_sox_resampler", "ready_for_room_event", b"ready_for_room_event", "register_rpc_method", b"register_rpc_method", "remix_and_resample", b"remix_and_resample", "remote_data_track_is_published", b"remote_data_track_is_published", "remote_data_track_set_pipeline_options", b"remote_data_track_set_pipeline_options", "rpc_method_invocation_response", b"rpc_method_invocation_response", "send_bytes", b"send_bytes", "send_chat_message", b"send_chat_message", "send_file", b"send_file", "send_stream_chunk", b"send_stream_chunk", "send_stream_header", b"send_stream_header", "send_stream_trailer", b"send_stream_trailer", "send_text", b"send_text", "set_data_channel_buffered_amount_low_threshold", b"set_data_channel_buffered_amount_low_threshold", "set_local_attributes", b"set_local_attributes", "set_local_metadata", b"set_local_metadata", "set_local_name", b"set_local_name", "set_playout_device", b"set_playout_device", "set_recording_device", b"set_recording_device", "set_remote_track_publication_quality", b"set_remote_track_publication_quality", "set_subscribed", b"set_subscribed", "set_track_subscription_permissions", b"set_track_subscription_permissions", "simulate_scenario", b"simulate_scenario", "start_recording", b"start_recording", "stop_recording", b"stop_recording", "subscribe_data_track", b"subscribe_data_track", "text_read_all", b"text_read_all", "text_read_incremental", b"text_read_incremental", "text_stream_close", b"text_stream_close", "text_stream_open", b"text_stream_open", "text_stream_write", b"text_stream_write", "unpublish_track", b"unpublish_track", "unregister_rpc_method", b"unregister_rpc_method", "update_remote_track_publication_dimension", b"update_remote_track_publication_dimension", "video_convert", b"video_convert", "video_stream_from_participant", b"video_stream_from_participant"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["message", b"message"]) -> typing_extensions.Literal["dispose", "connect", "disconnect", "publish_track", "unpublish_track", "publish_data", "set_subscribed", "set_local_metadata", "set_local_name", "set_local_attributes", "get_session_stats", "publish_transcription", "publish_sip_dtmf", "create_video_track", "create_audio_track", "local_track_mute", "enable_remote_track", "get_stats", "set_track_subscription_permissions", "new_video_stream", "new_video_source", "capture_video_frame", "video_convert", "video_stream_from_participant", "new_audio_stream", "new_audio_source", "capture_audio_frame", "clear_audio_buffer", "new_audio_resampler", "remix_and_resample", "audio_stream_from_participant", "e2ee", "new_sox_resampler", "push_sox_resampler", "flush_sox_resampler", "send_chat_message", "perform_rpc", "register_rpc_method", "unregister_rpc_method", "rpc_method_invocation_response", "enable_remote_track_publication", "update_remote_track_publication_dimension", "send_stream_header", "send_stream_chunk", "send_stream_trailer", "set_data_channel_buffered_amount_low_threshold", "load_audio_filter_plugin", "new_apm", "apm_process_stream", "apm_process_reverse_stream", "apm_set_stream_delay", "byte_read_incremental", "byte_read_all", "byte_write_to_file", "text_read_incremental", "text_read_all", "send_file", "send_text", "byte_stream_open", "byte_stream_write", "byte_stream_close", "text_stream_open", "text_stream_write", "text_stream_close", "send_bytes", "set_remote_track_publication_quality", "observe_track_publish_timing", "publish_data_track", "local_data_track_try_push", "local_data_track_unpublish", "local_data_track_is_published", "subscribe_data_track", "remote_data_track_is_published", "data_track_stream_read", "remote_data_track_set_pipeline_options", "simulate_scenario", "new_platform_audio", "get_audio_devices", "set_recording_device", "set_playout_device", "start_recording", "stop_recording", "ready_for_room_event"] | None: ...
 
 global___FfiResponse = FfiResponse
 
-@typing.final
+@typing_extensions.final
 class FfiEvent(google.protobuf.message.Message):
     """To minimize complexity, participant events are not included in the protocol.
     It is easily deducible from the room events and it turned out that is is easier to implement
@@ -742,6 +868,10 @@ class FfiEvent(google.protobuf.message.Message):
     TEXT_STREAM_WRITER_CLOSE_FIELD_NUMBER: builtins.int
     SEND_TEXT_FIELD_NUMBER: builtins.int
     SEND_BYTES_FIELD_NUMBER: builtins.int
+    PUBLISH_DATA_TRACK_FIELD_NUMBER: builtins.int
+    DATA_TRACK_STREAM_EVENT_FIELD_NUMBER: builtins.int
+    SIMULATE_SCENARIO_FIELD_NUMBER: builtins.int
+    TRACK_PUBLISH_TIMING_FIELD_NUMBER: builtins.int
     @property
     def room_event(self) -> room_pb2.RoomEvent: ...
     @property
@@ -791,7 +921,6 @@ class FfiEvent(google.protobuf.message.Message):
     @property
     def send_stream_header(self) -> room_pb2.SendStreamHeaderCallback:
         """Data Streams (low level)"""
-
     @property
     def send_stream_chunk(self) -> room_pb2.SendStreamChunkCallback: ...
     @property
@@ -799,7 +928,6 @@ class FfiEvent(google.protobuf.message.Message):
     @property
     def byte_stream_reader_event(self) -> data_stream_pb2.ByteStreamReaderEvent:
         """Data Streams (high level)"""
-
     @property
     def byte_stream_reader_read_all(self) -> data_stream_pb2.ByteStreamReaderReadAllCallback: ...
     @property
@@ -826,6 +954,16 @@ class FfiEvent(google.protobuf.message.Message):
     def send_text(self) -> data_stream_pb2.StreamSendTextCallback: ...
     @property
     def send_bytes(self) -> data_stream_pb2.StreamSendBytesCallback: ...
+    @property
+    def publish_data_track(self) -> data_track_pb2.PublishDataTrackCallback:
+        """Data Track (local)"""
+    @property
+    def data_track_stream_event(self) -> data_track_pb2.DataTrackStreamEvent:
+        """Data Track (remote)"""
+    @property
+    def simulate_scenario(self) -> room_pb2.SimulateScenarioCallback: ...
+    @property
+    def track_publish_timing(self) -> track_pb2.TrackPublishTimingEvent: ...
     def __init__(
         self,
         *,
@@ -869,14 +1007,18 @@ class FfiEvent(google.protobuf.message.Message):
         text_stream_writer_close: data_stream_pb2.TextStreamWriterCloseCallback | None = ...,
         send_text: data_stream_pb2.StreamSendTextCallback | None = ...,
         send_bytes: data_stream_pb2.StreamSendBytesCallback | None = ...,
+        publish_data_track: data_track_pb2.PublishDataTrackCallback | None = ...,
+        data_track_stream_event: data_track_pb2.DataTrackStreamEvent | None = ...,
+        simulate_scenario: room_pb2.SimulateScenarioCallback | None = ...,
+        track_publish_timing: track_pb2.TrackPublishTimingEvent | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["audio_stream_event", b"audio_stream_event", "byte_stream_open", b"byte_stream_open", "byte_stream_reader_event", b"byte_stream_reader_event", "byte_stream_reader_read_all", b"byte_stream_reader_read_all", "byte_stream_reader_write_to_file", b"byte_stream_reader_write_to_file", "byte_stream_writer_close", b"byte_stream_writer_close", "byte_stream_writer_write", b"byte_stream_writer_write", "capture_audio_frame", b"capture_audio_frame", "chat_message", b"chat_message", "connect", b"connect", "disconnect", b"disconnect", "dispose", b"dispose", "get_session_stats", b"get_session_stats", "get_stats", b"get_stats", "logs", b"logs", "message", b"message", "panic", b"panic", "perform_rpc", b"perform_rpc", "publish_data", b"publish_data", "publish_sip_dtmf", b"publish_sip_dtmf", "publish_track", b"publish_track", "publish_transcription", b"publish_transcription", "room_event", b"room_event", "rpc_method_invocation", b"rpc_method_invocation", "send_bytes", b"send_bytes", "send_file", b"send_file", "send_stream_chunk", b"send_stream_chunk", "send_stream_header", b"send_stream_header", "send_stream_trailer", b"send_stream_trailer", "send_text", b"send_text", "set_local_attributes", b"set_local_attributes", "set_local_metadata", b"set_local_metadata", "set_local_name", b"set_local_name", "text_stream_open", b"text_stream_open", "text_stream_reader_event", b"text_stream_reader_event", "text_stream_reader_read_all", b"text_stream_reader_read_all", "text_stream_writer_close", b"text_stream_writer_close", "text_stream_writer_write", b"text_stream_writer_write", "track_event", b"track_event", "unpublish_track", b"unpublish_track", "video_stream_event", b"video_stream_event"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["audio_stream_event", b"audio_stream_event", "byte_stream_open", b"byte_stream_open", "byte_stream_reader_event", b"byte_stream_reader_event", "byte_stream_reader_read_all", b"byte_stream_reader_read_all", "byte_stream_reader_write_to_file", b"byte_stream_reader_write_to_file", "byte_stream_writer_close", b"byte_stream_writer_close", "byte_stream_writer_write", b"byte_stream_writer_write", "capture_audio_frame", b"capture_audio_frame", "chat_message", b"chat_message", "connect", b"connect", "disconnect", b"disconnect", "dispose", b"dispose", "get_session_stats", b"get_session_stats", "get_stats", b"get_stats", "logs", b"logs", "message", b"message", "panic", b"panic", "perform_rpc", b"perform_rpc", "publish_data", b"publish_data", "publish_sip_dtmf", b"publish_sip_dtmf", "publish_track", b"publish_track", "publish_transcription", b"publish_transcription", "room_event", b"room_event", "rpc_method_invocation", b"rpc_method_invocation", "send_bytes", b"send_bytes", "send_file", b"send_file", "send_stream_chunk", b"send_stream_chunk", "send_stream_header", b"send_stream_header", "send_stream_trailer", b"send_stream_trailer", "send_text", b"send_text", "set_local_attributes", b"set_local_attributes", "set_local_metadata", b"set_local_metadata", "set_local_name", b"set_local_name", "text_stream_open", b"text_stream_open", "text_stream_reader_event", b"text_stream_reader_event", "text_stream_reader_read_all", b"text_stream_reader_read_all", "text_stream_writer_close", b"text_stream_writer_close", "text_stream_writer_write", b"text_stream_writer_write", "track_event", b"track_event", "unpublish_track", b"unpublish_track", "video_stream_event", b"video_stream_event"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing.Literal["message", b"message"]) -> typing.Literal["room_event", "track_event", "video_stream_event", "audio_stream_event", "connect", "disconnect", "dispose", "publish_track", "unpublish_track", "publish_data", "publish_transcription", "capture_audio_frame", "set_local_metadata", "set_local_name", "set_local_attributes", "get_stats", "logs", "get_session_stats", "panic", "publish_sip_dtmf", "chat_message", "perform_rpc", "rpc_method_invocation", "send_stream_header", "send_stream_chunk", "send_stream_trailer", "byte_stream_reader_event", "byte_stream_reader_read_all", "byte_stream_reader_write_to_file", "byte_stream_open", "byte_stream_writer_write", "byte_stream_writer_close", "send_file", "text_stream_reader_event", "text_stream_reader_read_all", "text_stream_open", "text_stream_writer_write", "text_stream_writer_close", "send_text", "send_bytes"] | None: ...
+    def HasField(self, field_name: typing_extensions.Literal["audio_stream_event", b"audio_stream_event", "byte_stream_open", b"byte_stream_open", "byte_stream_reader_event", b"byte_stream_reader_event", "byte_stream_reader_read_all", b"byte_stream_reader_read_all", "byte_stream_reader_write_to_file", b"byte_stream_reader_write_to_file", "byte_stream_writer_close", b"byte_stream_writer_close", "byte_stream_writer_write", b"byte_stream_writer_write", "capture_audio_frame", b"capture_audio_frame", "chat_message", b"chat_message", "connect", b"connect", "data_track_stream_event", b"data_track_stream_event", "disconnect", b"disconnect", "dispose", b"dispose", "get_session_stats", b"get_session_stats", "get_stats", b"get_stats", "logs", b"logs", "message", b"message", "panic", b"panic", "perform_rpc", b"perform_rpc", "publish_data", b"publish_data", "publish_data_track", b"publish_data_track", "publish_sip_dtmf", b"publish_sip_dtmf", "publish_track", b"publish_track", "publish_transcription", b"publish_transcription", "room_event", b"room_event", "rpc_method_invocation", b"rpc_method_invocation", "send_bytes", b"send_bytes", "send_file", b"send_file", "send_stream_chunk", b"send_stream_chunk", "send_stream_header", b"send_stream_header", "send_stream_trailer", b"send_stream_trailer", "send_text", b"send_text", "set_local_attributes", b"set_local_attributes", "set_local_metadata", b"set_local_metadata", "set_local_name", b"set_local_name", "simulate_scenario", b"simulate_scenario", "text_stream_open", b"text_stream_open", "text_stream_reader_event", b"text_stream_reader_event", "text_stream_reader_read_all", b"text_stream_reader_read_all", "text_stream_writer_close", b"text_stream_writer_close", "text_stream_writer_write", b"text_stream_writer_write", "track_event", b"track_event", "track_publish_timing", b"track_publish_timing", "unpublish_track", b"unpublish_track", "video_stream_event", b"video_stream_event"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["audio_stream_event", b"audio_stream_event", "byte_stream_open", b"byte_stream_open", "byte_stream_reader_event", b"byte_stream_reader_event", "byte_stream_reader_read_all", b"byte_stream_reader_read_all", "byte_stream_reader_write_to_file", b"byte_stream_reader_write_to_file", "byte_stream_writer_close", b"byte_stream_writer_close", "byte_stream_writer_write", b"byte_stream_writer_write", "capture_audio_frame", b"capture_audio_frame", "chat_message", b"chat_message", "connect", b"connect", "data_track_stream_event", b"data_track_stream_event", "disconnect", b"disconnect", "dispose", b"dispose", "get_session_stats", b"get_session_stats", "get_stats", b"get_stats", "logs", b"logs", "message", b"message", "panic", b"panic", "perform_rpc", b"perform_rpc", "publish_data", b"publish_data", "publish_data_track", b"publish_data_track", "publish_sip_dtmf", b"publish_sip_dtmf", "publish_track", b"publish_track", "publish_transcription", b"publish_transcription", "room_event", b"room_event", "rpc_method_invocation", b"rpc_method_invocation", "send_bytes", b"send_bytes", "send_file", b"send_file", "send_stream_chunk", b"send_stream_chunk", "send_stream_header", b"send_stream_header", "send_stream_trailer", b"send_stream_trailer", "send_text", b"send_text", "set_local_attributes", b"set_local_attributes", "set_local_metadata", b"set_local_metadata", "set_local_name", b"set_local_name", "simulate_scenario", b"simulate_scenario", "text_stream_open", b"text_stream_open", "text_stream_reader_event", b"text_stream_reader_event", "text_stream_reader_read_all", b"text_stream_reader_read_all", "text_stream_writer_close", b"text_stream_writer_close", "text_stream_writer_write", b"text_stream_writer_write", "track_event", b"track_event", "track_publish_timing", b"track_publish_timing", "unpublish_track", b"unpublish_track", "video_stream_event", b"video_stream_event"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["message", b"message"]) -> typing_extensions.Literal["room_event", "track_event", "video_stream_event", "audio_stream_event", "connect", "disconnect", "dispose", "publish_track", "unpublish_track", "publish_data", "publish_transcription", "capture_audio_frame", "set_local_metadata", "set_local_name", "set_local_attributes", "get_stats", "logs", "get_session_stats", "panic", "publish_sip_dtmf", "chat_message", "perform_rpc", "rpc_method_invocation", "send_stream_header", "send_stream_chunk", "send_stream_trailer", "byte_stream_reader_event", "byte_stream_reader_read_all", "byte_stream_reader_write_to_file", "byte_stream_open", "byte_stream_writer_write", "byte_stream_writer_close", "send_file", "text_stream_reader_event", "text_stream_reader_read_all", "text_stream_open", "text_stream_writer_write", "text_stream_writer_close", "send_text", "send_bytes", "publish_data_track", "data_track_stream_event", "simulate_scenario", "track_publish_timing"] | None: ...
 
 global___FfiEvent = FfiEvent
 
-@typing.final
+@typing_extensions.final
 class DisposeRequest(google.protobuf.message.Message):
     """Stop all rooms synchronously (Do we need async here?).
     e.g: This is used for the Unity Editor after each assemblies reload.
@@ -889,12 +1031,12 @@ class DisposeRequest(google.protobuf.message.Message):
     def __init__(
         self,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["async", b"async"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["async", b"async"]) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["async", b"async"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["async", b"async"]) -> None: ...
 
 global___DisposeRequest = DisposeRequest
 
-@typing.final
+@typing_extensions.final
 class DisposeResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -906,12 +1048,12 @@ class DisposeResponse(google.protobuf.message.Message):
         *,
         async_id: builtins.int | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["async_id", b"async_id"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["async_id", b"async_id"]) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["async_id", b"async_id"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["async_id", b"async_id"]) -> None: ...
 
 global___DisposeResponse = DisposeResponse
 
-@typing.final
+@typing_extensions.final
 class DisposeCallback(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -922,12 +1064,12 @@ class DisposeCallback(google.protobuf.message.Message):
         *,
         async_id: builtins.int | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["async_id", b"async_id"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["async_id", b"async_id"]) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["async_id", b"async_id"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["async_id", b"async_id"]) -> None: ...
 
 global___DisposeCallback = DisposeCallback
 
-@typing.final
+@typing_extensions.final
 class LogRecord(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -954,12 +1096,12 @@ class LogRecord(google.protobuf.message.Message):
         line: builtins.int | None = ...,
         message: builtins.str | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["file", b"file", "level", b"level", "line", b"line", "message", b"message", "module_path", b"module_path", "target", b"target"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["file", b"file", "level", b"level", "line", b"line", "message", b"message", "module_path", b"module_path", "target", b"target"]) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["file", b"file", "level", b"level", "line", b"line", "message", b"message", "module_path", b"module_path", "target", b"target"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["file", b"file", "level", b"level", "line", b"line", "message", b"message", "module_path", b"module_path", "target", b"target"]) -> None: ...
 
 global___LogRecord = LogRecord
 
-@typing.final
+@typing_extensions.final
 class LogBatch(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -971,11 +1113,11 @@ class LogBatch(google.protobuf.message.Message):
         *,
         records: collections.abc.Iterable[global___LogRecord] | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["records", b"records"]) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["records", b"records"]) -> None: ...
 
 global___LogBatch = LogBatch
 
-@typing.final
+@typing_extensions.final
 class Panic(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -986,7 +1128,7 @@ class Panic(google.protobuf.message.Message):
         *,
         message: builtins.str | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["message", b"message"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["message", b"message"]) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["message", b"message"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["message", b"message"]) -> None: ...
 
 global___Panic = Panic
